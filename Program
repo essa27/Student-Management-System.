@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+
+class Student
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public double Grade { get; set; }
+
+    public Student(string name, int age, double grade)
+    {
+        Name = name;
+        Age = age;
+        Grade = grade;
+    }
+
+    public override string ToString()
+    {
+        return $"Name: {Name}, Age: {Age}, Grade: {Grade}";
+    }
+}
+
+class StudentManagement
+{
+    private List<Student> students = new List<Student>();
+
+    public void AddStudent(string name, int age, double grade)
+    {
+        students.Add(new Student(name, age, grade));
+        Console.WriteLine("Student added successfully!");
+    }
+
+    public void ListStudents()
+    {
+        if (students.Count == 0)
+        {
+            Console.WriteLine("No students in the system.");
+            return;
+        }
+        foreach (var student in students)
+        {
+            Console.WriteLine(student);
+        }
+    }
+
+    public void RemoveStudent(string name)
+    {
+        students.RemoveAll(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        Console.WriteLine("Student removed successfully!");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        StudentManagement management = new StudentManagement();
+        while (true)
+        {
+            Console.WriteLine("\nStudent Management System");
+            Console.WriteLine("1. Add Student");
+            Console.WriteLine("2. List Students");
+            Console.WriteLine("3. Remove Student");
+            Console.WriteLine("4. Exit");
+            Console.Write("Enter your choice: ");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Enter student name: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Enter age: ");
+                    int age = int.Parse(Console.ReadLine());
+                    Console.Write("Enter grade: ");
+                    double grade = double.Parse(Console.ReadLine());
+                    management.AddStudent(name, age, grade);
+                    break;
+                case 2:
+                    management.ListStudents();
+                    break;
+                case 3:
+                    Console.Write("Enter student name to remove: ");
+                    string removeName = Console.ReadLine();
+                    management.RemoveStudent(removeName);
+                    break;
+                case 4:
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice!");
+                    break;
+            }
+        }
+    }
+}
